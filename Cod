@@ -1,0 +1,133 @@
+import os
+import  random
+
+# Получаем номер заказа
+if os.path.exists("order_counter.txt"):
+    with open("order_counter.txt", "r") as f:
+        try:
+            order_number = int(f.read().strip()) + 1
+        except:
+            order_number = 1
+else:
+    order_number = 1
+
+with open("order_counter.txt", "w") as f:
+    f.write(str(order_number))
+
+name = input("Имя: ").strip()
+surname = input("Фамилия: ").strip()
+
+if not name or not surname:
+    print("Ошибка: имя и фамилия не могут быть пустыми!")
+    exit()
+
+try:
+    age = int(input("Возраст: "))
+    if age < 1 or age > 120:
+        print("Ошибка: возраст должен быть от 1 до 120 лет!")
+        exit()
+except ValueError:
+    print("Ошибка: возраст должен быть числом!")
+    exit()
+
+print("\n=== ОСНОВНОЕ МЕНЮ ===")
+print("1. Лаваш (250 ккал) - 150 руб")
+print("2. Шаурма классическая (450 ккал) - 200 руб")
+print("3. Шаурма острая (480 ккал) - 220 руб")
+print("4. Шаурма с сыром (520 ккал) - 240 руб")
+print("5. Супердупермегобожественная шаурма (1500 ккал) - 20000 руб")
+print("6. Шашлык куриный (280 ккал) - 300 руб")
+print("7. Шашлык говяжий (320 ккал) - 350 руб")
+print("8. Кока-кола (140 ккал) - 80 руб")
+print("9. Сок яблочный (110 ккал) - 70 руб")
+print("10. Молоко (60 ккал) - 60 руб")
+print("11. Вода (0 ккал) - 40 руб")
+
+print("\n=== ДЕТСКОЕ МЕНЮ ===")
+print("12. Детское пюре с фруктовым вкусом (80 ккал) - 100 руб")
+print("13. Детское пюре с овощным вкусом (70 ккал) - 100 руб")
+print("14. Мясо для детей (120 ккал) - 150 руб")
+
+# Список блюд
+menu_items = [
+    "Лаваш", "Шаурма классическая", "Шаурма острая", "Шаурма с сыром",
+    "Супердупермегобожественная шаурма", "Шашлык куриный", "Шашлык говяжий",
+    "Кока-кола", "Сок яблочный", "Молоко", "Вода",
+    "Детское пюре с фруктовым вкусом", "Детское пюре с овощным вкусом", "Мясо для детей"
+]
+
+# Калории
+calories = [250, 450, 480, 520, 1500, 280, 320, 140, 110, 60, 0, 80, 70, 120]
+
+# Цены в рублях
+prices = [150, 200, 220, 240, 20000, 300, 350, 80, 70, 60, 40, 100, 100, 150]
+zatrati = [100,120,190,200,1000,200,300,79,30,10,44,60,80]
+# Выбор блюд
+choice = input("\nВведите номера блюд через запятую: ").strip()
+
+if not choice:
+    print("Ошибка: вы ничего не выбрали!")
+    exit()
+
+selected_items = []
+total_calories = 0
+total_price = 0
+total_zatrati  = 0 
+for num in choice.split(','):
+    try:
+        num = int(num.strip())
+        if 1 <= num <= 14:
+            selected_items.append(menu_items[num-1])
+            total_calories += calories[num-1]
+            total_price += prices[num-1]
+            total_zatrati += zatrati[num-1]
+        else:
+            print(f"Ошибка: номер {num} не существует!")
+    except ValueError:
+        print(f"Ошибка: '{num}' - не число!")
+
+if not selected_items:
+    print("Ошибка: не выбрано ни одного блюда!")
+    exit()
+
+
+money_1 = input("картой или наличными: ")
+
+if money_1 == "картой":
+    print("оплачивайте")
+
+elif money_1 == "наличными":
+    y = total_price
+    print(f"Стоимость покупки: {y} рублей")
+    x = int(input("сколько у вас будет? "))
+    
+    change = x - y
+    
+    if change > 0: 
+        print(f"леееее брат сдача не забудь: {change} рублей")
+    elif change == 0:
+        print("брат у тя без сдачи")
+    else:  # change < 0
+        need = abs(change)  
+        print(f" у тебя не хватает, еще {need} рублей нужно")
+
+
+
+
+
+
+
+
+
+order = ", ".join(selected_items)
+virauck =  total_price - total_zatrati
+filename = f"{name}_{surname}.txt"
+nmsmn = random.randint(00000,99999)
+znkkt = random.randint(00000000,9999999)
+print("чек") 
+print(f"нмс {nmsmn}") 
+print(f"зкт {znkkt}") 
+print(f"продукты {num}") 
+print(f"стоимость {total_price}") 
+print(f"сдача {change}")
+print("спасибо за покупку! ")
